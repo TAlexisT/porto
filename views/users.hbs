@@ -1,0 +1,35 @@
+<h1>Products</h1>
+
+{{#if users}}
+  <ul class="users_list">
+    {{#each users}}
+      <li>
+        {{this.username}}
+        <img src="{{this.avatar}}" alt="UserAvatar" style="width: 64px;"/>
+        <a href="/adduser/{{this.id}}">Update</a>
+        <button class="delete" data-id="{{this.id}}">Delete</button>
+      </li>
+    {{/each}}
+  </ul>
+  <a href="/adduser">Add user</a>
+{{else}}
+  <h1>No data show</h1>
+  <a href="/adduser">Add user</a>
+{{/if}}
+
+<script>
+
+  $(".delete").on("click", function(){
+    let id = this.dataset.id;
+
+    fetch(`/deleteuser/${id}`, 
+    {
+      method:"DELETE"
+    }).then((data)=>{
+      if(data.status==200){
+        $(this).parent().remove();
+      }
+    });
+  })
+
+</script>
